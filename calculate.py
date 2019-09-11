@@ -81,7 +81,7 @@ class CalculateCommand(sublime_plugin.TextCommand):
                 self.view.sel().add(region)
                 raise ex
             else:
-                line = self.view.line(region.a)
+                line = self.view.line(line.a)
                 self.view.sel().add(sublime.Region(line.b, line.b))
 
     def get_formula(self):
