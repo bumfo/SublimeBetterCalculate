@@ -1,4 +1,4 @@
-from functools import cmp_to_key
+from functools import reduce
 import math
 import random
 import re
@@ -19,6 +19,8 @@ class CalculateCommand(sublime_plugin.TextCommand):
         for key in dir(math):
             if not key.startswith('_'):
                 g[key] = getattr(math, key)
+
+        g['reduce'] = reduce
 
         def average(nums):
             return sum(nums) / len(nums)
