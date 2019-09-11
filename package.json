@@ -1,12 +1,12 @@
 {
   "name": "Better Calculate",
-  "description": "Calculations using python.",
+  "description": "Better Calculations using python.",
   "author": "bumfo; Colin T.A. Gray (original)",
-  "details": "https://github.com/bumfo/SublimeCalculate",
+  "details": "https://github.com/bumfo/SublimeBetterCalculate",
   "labels": ["calculator"],
   "releases": [
     {
-      "details": "https://github.com/bumfo/SublimeCalculate/tags",
+      "details": "https://github.com/bumfo/SublimeBetterCalculate/tags",
       "sublime_text": ">=3000"
     }
   ]

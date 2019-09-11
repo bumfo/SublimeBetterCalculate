@@ -21,7 +21,7 @@ There is also a `calculate_count` command, used to count from 1 (or another inde
 Installation
 ------------
 
-1. Using Package Control, install "Calculate"
+1. Using Package Control, install "Better Calculate"
 
 Or:
 
