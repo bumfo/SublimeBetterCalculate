@@ -10,28 +10,50 @@ import sublime_plugin
 class CalculateCommand(sublime_plugin.TextCommand):
     def __init__(self, *args, **kwargs):
         sublime_plugin.TextCommand.__init__(self, *args, **kwargs)
-        self.dict = {}
+
+    def make_globals(self):
+        g = {}
         for key in dir(random):
-            self.dict[key] = getattr(random, key)
+            if not key.startswith('_'):
+                g[key] = getattr(random, key)
         for key in dir(math):
-            self.dict[key] = getattr(math, key)
+            if not key.startswith('_'):
+                g[key] = getattr(math, key)
 
         def average(nums):
             return sum(nums) / len(nums)
 
-        self.dict['avg'] = average
-        self.dict['average'] = average
+        g['avg'] = average
+        g['average'] = average
 
         def password(length=20):
             pwdchrs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
             return ''.join(random.choice(pwdchrs) for _ in range(length))
 
-        self.dict['pwd'] = password
-        self.dict['password'] = password
+        g['pwd'] = password
+        g['password'] = password
 
-        self.dict['__builtins__'] = {}
+        builtins = {}
+        for key in [
+            'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes',
+            'callable', 'chr', 'compile', 'complex', 'dict', 'dir', 'divmod', 'enumerate', 
+            'filter', 'float', 'format', 'frozenset', 'getattr', 'hasattr', 'hash',
+            'hex', 'id', 'int', 'isinstance', 'issubclass', 'iter', 'len', 'list', 'map', 
+            'max', 'memoryview', 'min', 'next', 'object', 'oct', 'ord', 'pow', 'range', 
+            'repr', 'reversed', 'round', 'set', 'slice', 'sorted', 'str', 'sum', 'tuple', 
+            'type', 'vars', 'zip'
+        ]:
+            try:
+                builtins[key] = __builtins__[key]
+            except KeyError:
+                pass
+
+        g['__builtins__'] = builtins
+
+        return g
 
     def run(self, edit, **kwargs):
+        self.dict = self.make_globals()
         self.dict['i'] = 0
         if not kwargs.get('line', False) and len(self.view.sel()) == 1 and not self.view.sel()[0]:
             return self.get_formula()
