@@ -55,7 +55,7 @@ class CalculateCommand(sublime_plugin.TextCommand):
     def run(self, edit, **kwargs):
         self.dict = self.make_globals()
         self.dict['i'] = 0
-        if not kwargs.get('line', False) and len(self.view.sel()) == 1 and not self.view.sel()[0]:
+        if not kwargs.get('empty_as_line', False) and len(self.view.sel()) == 1 and not self.view.sel()[0]:
             return self.get_formula()
         for region in self.view.sel():
             try:
@@ -82,14 +82,14 @@ class CalculateCommand(sublime_plugin.TextCommand):
 
         return result
 
-    def run_each(self, edit, region, replace=False, line=False):
+    def run_each(self, edit, region, replace=False, empty_as_line=False):
         if not region.empty():
             formula = self.view.substr(region)
             value = self.calculate(formula)
             if not replace:
                 value = "%s = %s" % (formula, value)
             self.view.replace(edit, region, value)
-        else:
+        elif empty_as_line:
             self.view.sel().subtract(region)
             
             line = self.view.line(region.a)

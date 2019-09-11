@@ -54,8 +54,8 @@ Open your key bindings file and add the bindings you want.  For example:
 ###### Example.sublime-keymap
 ```json
 [
-    { "keys": ["ctrl+alt+="], "command": "calculate", "args": {"replace": false, "line": true} },
-    { "keys": ["ctrl+alt+c"], "command": "calculate", "args": {"replace": true, "line": true} },
+    { "keys": ["ctrl+alt+="], "command": "calculate", "args": {"replace": false, "empty_as_line": true} },
+    { "keys": ["ctrl+alt+c"], "command": "calculate", "args": {"replace": true, "empty_as_line": true} },
     { "keys": ["ctrl+up"], "command": "calculate_increment" },
     { "keys": ["ctrl+down"], "command": "calculate_decrement" },
     { "keys": ["ctrl+shift+alt+1"], "command": "calculate_count" }
