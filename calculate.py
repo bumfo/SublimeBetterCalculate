@@ -90,23 +90,18 @@ class CalculateCommand(sublime_plugin.TextCommand):
                 value = "%s = %s" % (formula, value)
             self.view.replace(edit, region, value)
         elif empty_as_line:
-            self.view.sel().subtract(region)
-            
             line = self.view.line(region.a)
             formula = self.view.substr(line)
-            try:
-                value = self.calculate(formula)
-                if not replace:
-                    value = " = %s" % (value)
-                    self.view.replace(edit, sublime.Region(line.b, line.b), value)
-                else:
-                    self.view.replace(edit, line, value)
-            except BaseException as ex:
-                self.view.sel().add(region)
-                raise ex
+
+            value = self.calculate(formula)
+            self.view.sel().subtract(region)
+            if not replace:
+                value = " = %s" % (value)
+                self.view.replace(edit, sublime.Region(line.b, line.b), value)
             else:
-                line = self.view.line(line.a)
-                self.view.sel().add(sublime.Region(line.b, line.b))
+                self.view.replace(edit, line, value)
+            line = self.view.line(line.a)
+            self.view.sel().add(sublime.Region(line.b, line.b))
 
     def get_formula(self):
         self.view.window().show_input_panel('Calculate:', '', self.on_calculate, None, None)
