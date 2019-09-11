@@ -93,15 +93,21 @@ class CalculateCommand(sublime_plugin.TextCommand):
             line = self.view.line(region.a)
             formula = self.view.substr(line)
 
+            if not replace:
+                formula = re.sub(r' =(?:\s*| .+)$', r'', formula)
+                formula = formula.rstrip()
+
             value = self.calculate(formula)
             self.view.sel().subtract(region)
             if not replace:
-                value = " = %s" % (value)
-                self.view.replace(edit, sublime.Region(line.b, line.b), value)
+                value = "%s = %s" % (formula, value)
+                self.view.replace(edit, line, value)
+                a = line.a + len(formula)
+                a = self.view.line(line.a).b if region.a != a and region.a == line.b else min(region.a, a)
             else:
                 self.view.replace(edit, line, value)
-            line = self.view.line(line.a)
-            self.view.sel().add(sublime.Region(line.b, line.b))
+                a = self.view.line(line.a).b
+            self.view.sel().add(sublime.Region(a, a))
 
     def get_formula(self):
         self.view.window().show_input_panel('Calculate:', '', self.on_calculate, None, None)
