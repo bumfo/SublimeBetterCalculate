@@ -1,4 +1,4 @@
-Calculate
+Better Calculate
 =========
 
 Select a formula and run `calculate` to evaluate it using python.  The result can be appended to the selection (`1+1` => `1+1 = 2`) or replace the selection (`1+1` => `2`).  Using the `replace: true` option replaces the selected text with the result.  If you have zero selections, you will be prompted for a formula, and the result will be inserted.

@@ -31,7 +31,7 @@ class CalculateCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, **kwargs):
         self.dict['i'] = 0
-        if len(self.view.sel()) == 1 and not self.view.sel()[0]:
+        if not kwargs.get('line', False) and len(self.view.sel()) == 1 and not self.view.sel()[0]:
             return self.get_formula()
         for region in self.view.sel():
             try:
@@ -58,13 +58,31 @@ class CalculateCommand(sublime_plugin.TextCommand):
 
         return result
 
-    def run_each(self, edit, region, replace=False):
+    def run_each(self, edit, region, replace=False, line=False):
         if not region.empty():
             formula = self.view.substr(region)
             value = self.calculate(formula)
             if not replace:
                 value = "%s = %s" % (formula, value)
             self.view.replace(edit, region, value)
+        else:
+            self.view.sel().subtract(region)
+            
+            line = self.view.line(region.a)
+            formula = self.view.substr(line)
+            try:
+                value = self.calculate(formula)
+                if not replace:
+                    value = " = %s" % (value)
+                    self.view.replace(edit, sublime.Region(line.b, line.b), value)
+                else:
+                    self.view.replace(edit, line, value)
+            except BaseException as ex:
+                self.view.sel().add(region)
+                raise ex
+            else:
+                line = self.view.line(region.a)
+                self.view.sel().add(sublime.Region(line.b, line.b))
 
     def get_formula(self):
         self.view.window().show_input_panel('Calculate:', '', self.on_calculate, None, None)

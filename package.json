@@ -1,12 +1,12 @@
 {
-  "name": "Calculate",
-  "description": "Calculations using python.  Also provides some number-related functions, like counting (across multiple selections).  With contributions from Subhas Dandapani (rdsubhas), Alexander Kirk (akirk), and Kroum Tzanev (kpym)",
-  "author": "Colin T.A. Gray (colinta)",
-  "details": "https://github.com/colinta/SublimeCalculate",
+  "name": "Better Calculate",
+  "description": "Calculations using python.",
+  "author": "bumfo; Colin T.A. Gray (original)",
+  "details": "https://github.com/bumfo/SublimeCalculate",
   "labels": ["calculator"],
   "releases": [
     {
-      "details": "https://github.com/colinta/SublimeCalculate/tags",
+      "details": "https://github.com/bumfo/SublimeCalculate/tags",
       "sublime_text": ">=3000"
     }
   ]
